@@ -4,7 +4,7 @@
       <li><router-link to="/">首页</router-link></li>
       <li><router-link to="/getstart">新手入门</router-link></li>
       <li><router-link to="/api">API</router-link></li>
-      <li><router-link to="/about">关于</router-link></li>
+      <li><router-link to="/about">关于更新</router-link></li>
       <li><router-link to="/">注册</router-link></li>
       <li><router-link to="/login">登录</router-link></li>
     </ul>

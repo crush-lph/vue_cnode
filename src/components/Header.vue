@@ -14,10 +14,7 @@
       <li>
         <router-link to="/about">关于</router-link>
       </li>
-      <li>
-        <router-link to="/">注册</router-link>
-      </li>
-      <li v-if="!isLogin">
+      <li v-if="!this.$store.state.isLogin">
         <router-link to="/login">登录</router-link>
       </li>
       <li v-else
@@ -32,12 +29,11 @@
 <script>
 export default {
   name: "Header",
-  props: ["isLogin"],
+
   methods: {
     exit () {
       this.$store.state.isLogin = false;
       window.localStorage.isLogin = this.$store.state.isLogin;
-      console.log(window.localStorage.getItem("isLogin"));
     },
   },
 
@@ -73,8 +69,6 @@ export default {
 
       line-height: 50px;
       text-align: center;
-
-
     }
   }
 }

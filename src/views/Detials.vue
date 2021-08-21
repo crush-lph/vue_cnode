@@ -59,7 +59,7 @@
                 <i class="iconfont icon-dianzan"
                    @click="ups(comment.id)"
                    title="点赞">
-                  <span class="up_count">{{comment.ups.length === 0 ?'':comment.ups.length}}</span>
+                  <span class="up_count">{{comment.ups.length}}</span>
                 </i>
 
                 <i class="iconfont icon-icon_reply"

@@ -7,6 +7,8 @@
         <router-view />
       </div>
       <div class="right">
+
+        <!-- 登录 -->
         <div v-if="!this.$store.state.isLogin"
              class="login">
           <p>CNode：Node.js专业中文社区</p>
@@ -22,13 +24,18 @@
           </div>
         </div>
 
+        <!-- 个人信息 -->
+
         <!-- 发布话题 -->
-        <Panel>
+        <Panel v-else>
           <template #panel-header>
             <span>个人信息</span>
           </template>
           <template #content>
-            <div></div>
+            <div class="my_info">
+              <!-- <img :src=""
+                   alt=""> -->
+            </div>
           </template>
         </Panel>
         <Panel>
@@ -53,12 +60,11 @@ export default {
   components: { Header, Footer, Panel },
   data () {
     return {
-      isLogin: false,
+      isLogin: '',
     };
   },
   created () {
     this.isLogin = this.$store.state.isLogin;
-    console.log(this.isLogin);
   },
 };
 </script>

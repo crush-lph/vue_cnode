@@ -53,7 +53,7 @@ export default {
           .then((res) => {
             this.$router.push("/");
             this.$store.state.isLogin = true;
-            window.localStorage.isLogin = this.$store.state.isLogin
+            window.localStorage.isLogin = true
           })
           .catch((err) => {
             alert("token错误");
@@ -85,6 +85,5 @@ export default {
 .loginBtn {
   margin-left: 230px;
   width: 160px;
-
 }
 </style>

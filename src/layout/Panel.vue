@@ -4,7 +4,6 @@
        class="panel">
     <div class="topic-header">
       <slot name="topic-header" />
-      =
     </div>
     <div class="panel-header">
       <!-- 具名插槽 -->
@@ -53,14 +52,12 @@ export default {
   // margin-bottom: 15px;
   margin: 15px auto;
 
-
   .panel-header {
     padding: 10px;
     background-color: #f6f6f6;
     border-radius: 4px 4px 0 0;
   }
   .content {
-
     background-color: white;
     padding: 10px;
     border-radius: 0 0 4px 4px;
@@ -87,7 +84,6 @@ export default {
     text-decoration: none;
   }
   p {
-
     color: #333;
   }
   line-height: 1.7em;

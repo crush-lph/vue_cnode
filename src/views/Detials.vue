@@ -119,7 +119,6 @@
 <script>
 import Panel from "../layout/Panel.vue";
 import moment from "moment";
-import axios from 'axios'
 // import tinymce from "tinymce";
 // import { Editor } from "@tinymce/tinymce-vue";
 

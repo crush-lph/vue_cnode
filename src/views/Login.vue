@@ -35,6 +35,7 @@ import Panel from "../layout/Panel.vue";
 
 export default {
   components: { Panel },
+
   data () {
     return {
       token: "dcb9af35-cf99-4376-9efd-9afb9bd92db4",
@@ -58,10 +59,12 @@ export default {
             alert("token错误");
           });
       }
+
     },
   },
 };
 </script>
+
 
 <style lang='less'>
 .password,
@@ -82,5 +85,6 @@ export default {
 .loginBtn {
   margin-left: 230px;
   width: 160px;
+
 }
 </style>

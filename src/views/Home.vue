@@ -13,28 +13,19 @@
       </template>
       <template #content>
         <div v-if="posts.length">
-          <div class="post-item" v-for="post in posts" :key="post.id">
+          <div class="post-item"
+               v-for="post in posts"
+               :key="post.id">
             <!-- title 划过展示提示信息 -->
-            <img
-              :src="post.author.avatar_url"
-              alt=""
-              :title="post.author.loginname"
-              class="avatar"
-            />
-            <span class="reply-count"
-              ><span style="color: #9e78c0">{{ post.reply_count }}</span
-              >/<span style="color: #b4b4b4">{{ post.visit_count }}</span></span
-            >
-            <span
-              v-if="!tab || tab === 'all' || post.good || post.top"
-              :class="post.top || post.good ? 'active-tab' : 'tab'"
-              >{{ post | formatTab }}</span
-            >
-            <router-link
-              class="title"
-              :to="{ name: 'detials', query: { id: post.id } }"
-              >{{ post.title }}</router-link
-            >
+            <img :src="post.author.avatar_url"
+                 alt=""
+                 :title="post.author.loginname"
+                 class="avatar" />
+            <span class="reply-count"><span style="color: #9e78c0">{{ post.reply_count }}</span>/<span style="color: #b4b4b4">{{ post.visit_count }}</span></span>
+            <span v-if="!tab || tab === 'all' || post.good || post.top"
+                  :class="post.top || post.good ? 'active-tab' : 'tab'">{{ post | formatTab }}</span>
+            <router-link class="title"
+                         :to="{ name: 'detials', query: { id: post.id } }">{{ post.title }}</router-link>
             <span class="create_time">{{
               post.last_reply_at | formatTime
             }}</span>
@@ -42,7 +33,9 @@
         </div>
       </template>
       <template #pagination>
-        <el-pagination background layout="prev, pager, next" :total="1000">
+        <el-pagination background
+                       layout="prev, pager, next"
+                       :total="1000">
         </el-pagination>
       </template>
     </Panel>
@@ -78,7 +71,7 @@ export default {
     Panel,
     // Editor,
   },
-  data() {
+  data () {
     return {
       posts: [],
       details: "",
@@ -92,7 +85,7 @@ export default {
   // },
   watch: {
     tab: {
-      async handler(newValue) {
+      async handler (newValue) {
         const tab = newValue || "all";
         // console.log(newValue);
         const res = await this.$axios.get(`/topics?page=1&limit=40&tab=${tab}`);
@@ -104,12 +97,12 @@ export default {
     },
   },
   computed: {
-    tab() {
+    tab () {
       return this.$route.params.tab;
     },
   },
   filters: {
-    formatTime(last_reply_at) {
+    formatTime (last_reply_at) {
       let last_reply_time = moment(last_reply_at).format("YYYY-MM-DD HH:mm:ss");
       let now = moment();
       // console.log(time);

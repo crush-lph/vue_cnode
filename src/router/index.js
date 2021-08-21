@@ -25,6 +25,7 @@ const routes = [
     name: 'detials',
     path: '/topic/detials',
     component: () => import("../views/Detials.vue")
+
   },
   {
     path: '/',
@@ -44,6 +45,7 @@ const router = new VueRouter({
   routes
 })
 
+
 router.beforeEach((to, from, next) => {
   let loginStatus = window.localStorage.getItem('isLogin')
   // loginStatus = Boolean(loginStatus)
@@ -58,5 +60,6 @@ router.beforeEach((to, from, next) => {
     console.log("未登录");
   }
 })
+
 
 export default router

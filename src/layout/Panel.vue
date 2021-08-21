@@ -1,8 +1,10 @@
 <template>
+
   <div :style="{ width: width }"
        class="panel">
     <div class="topic-header">
       <slot name="topic-header" />
+      =
     </div>
     <div class="panel-header">
       <!-- 具名插槽 -->
@@ -13,6 +15,7 @@
     </div>
     <div class="pagination">
       <slot name="pagination" />
+
     </div>
   </div>
 </template>
@@ -35,6 +38,7 @@ export default {
         : this.width;
       //先判断是否为数字 如果是 就直接加上px
       //不是数字看能否用Number转化成数字 能的话就变成加px的字符串，如果不能就转化就不修改
+
     },
   },
 };
@@ -49,13 +53,14 @@ export default {
   // margin-bottom: 15px;
   margin: 15px auto;
 
+
   .panel-header {
     padding: 10px;
     background-color: #f6f6f6;
     border-radius: 4px 4px 0 0;
   }
   .content {
-    // min-height: 130px;
+
     background-color: white;
     padding: 10px;
     border-radius: 0 0 4px 4px;
@@ -71,6 +76,7 @@ export default {
   line-height: 30px;
   display: flex;
 }
+
 .markdown-text {
   h2 {
     padding: 10px;
@@ -81,6 +87,7 @@ export default {
     text-decoration: none;
   }
   p {
+
     color: #333;
   }
   line-height: 1.7em;

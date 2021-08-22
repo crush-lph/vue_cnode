@@ -63,12 +63,18 @@
                 </i>
 
                 <i class="iconfont icon-icon_reply"
-                   title="回复"></i>
+                   title="回复"
+                   @click="reply(comment.id)"></i>
               </div>
             </div>
             <div class="comment_content">
               <span v-html="comment.content"></span>
             </div>
+            <textarea name="reply_editor"
+                      :id="comment.id"
+                      cols="30"
+                      rows="10"
+                      v-show="(comment.id===visibleId)&&replyClick"></textarea>
           </div>
         </div>
       </template>
@@ -128,6 +134,9 @@ export default {
   data () {
     return {
       detial: {},
+      visibleId: String,
+      replyClick: false,
+
     };
   },
   async created () {
@@ -135,23 +144,18 @@ export default {
     this.detial = res.data;
     console.log(this.detial);
   },
-  filters: {
-    formatTime (time) {
-      let oldTime = moment(time).format("YYYY-MM-DD HH:mm:ss");
-      let now = moment();
-      // console.log(time);
-      // let time2 = moment;
-      let day = now.diff(oldTime, "day");
-      if (day > 30) {
-        return now.diff(oldTime, "month") + "月前";
-      } else return day + "天前";
-    },
-  },
   methods: {
     async ups (id) {
       const res = await this.$axios.post(`/reply/${id}/up`)
       console.log(id);
       console.log(res);
+    },
+    reply (id) {
+      // if (id === moment.id)
+      this.replyClick = !this.replyClick
+      console.log(id);
+      this.visibleId = id
+      // console.log(comment.id);
     }
   }
 };

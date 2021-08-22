@@ -53,11 +53,11 @@ router.beforeEach((to, from, next) => {
   if (loginStatus === 'true' && to.path === '/login') {
     console.log(loginStatus);
     next('/')
-    console.log("已登录");
+    // console.log("已登录");
   }
   else {
     next()
-    console.log("未登录");
+    // console.log("未登录");
   }
 })
 

@@ -38,9 +38,13 @@ export default {
 
   data () {
     return {
-      token: "dcb9af35-cf99-4376-9efd-9afb9bd92db4",
+      token: "",
     };
   },
+  created () {
+    this.token = this.$store.state.token
+  }
+  ,
   methods: {
     login () {
       if (!this.token) {

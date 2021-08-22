@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header :isLogin="isLogin" />
+    <Header />
     <!-- <Main/> -->
     <div class="home-content">
       <div class="left">
@@ -25,19 +25,29 @@
         </div>
 
         <!-- 个人信息 -->
-
-        <!-- 发布话题 -->
         <Panel v-else>
           <template #panel-header>
             <span>个人信息</span>
           </template>
           <template #content>
-            <div class="my_info">
-              <!-- <img :src=""
-                   alt=""> -->
+            <div class="my_info"
+                 :v-if="myInfo">
+              <div class="info_top">
+                <!-- <img src="" alt=""> -->
+                <img class="profile"
+                     :src='myInfo.avatar_url'
+                     alt="">
+                <span>{{myInfo.loginname}}</span>
+              </div>
+              <div class="info_bottom">
+                <span class="point">积分:5</span>
+                <span class="signature">'这家伙很懒，什么个性签名都没有留下'</span>
+              </div>
             </div>
           </template>
         </Panel>
+
+        <!-- 发布话题 -->
         <Panel>
           <template #content>
             <el-button type="primary"
@@ -61,9 +71,15 @@ export default {
   data () {
     return {
       isLogin: '',
+      myInfo: {}
     };
   },
-  created () {
+  async created () {
+    const res = await this.$axios.post("/accesstoken", {
+      accesstoken: this.$store.state.token
+    })
+    console.log(res);
+    this.myInfo = res
     this.isLogin = this.$store.state.isLogin;
   },
 };
@@ -91,7 +107,8 @@ export default {
 .right {
   width: 30%;
   border-radius: 4px;
-  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
   .panel {
     margin-left: 0px;
     padding-right: 60px;
@@ -104,11 +121,44 @@ export default {
     margin: 0;
   }
   // width: 80%;
-  margin-right: 60px;
+  margin: 15px 60px 0 0;
   // height: 120px;
   font-size: 13px;
   // padding: 30px;
   border-radius: 4px;
   background-color: #fff;
+}
+.my_info {
+  .info_top {
+    display: flex;
+
+    .profile {
+      width: 48px;
+      height: 48px;
+      // border: 1px solid;
+      border-radius: 4px;
+      // background-color: #ccc;
+    }
+    span {
+      flex: 1;
+      line-height: 48px;
+      margin-left: 10px;
+    }
+  }
+  .info_bottom {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    .point {
+      font-size: 13px;
+      color: #333;
+      margin: 0 0 5px 0;
+    }
+    .signature {
+      font-style: italic;
+      font-size: 13px;
+      color: #333;
+    }
+  }
 }
 </style>

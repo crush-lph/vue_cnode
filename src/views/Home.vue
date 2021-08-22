@@ -63,7 +63,7 @@
 
 <script>
 import Panel from "../layout/Panel.vue";
-import moment from "moment";
+// import moment from "moment";
 // import { Editor } from "@tinymce/tinymce-vue";
 export default {
   name: "Home",
@@ -101,16 +101,16 @@ export default {
       return this.$route.params.tab;
     },
   },
-  filters: {
-    formatTime (last_reply_at) {
-      let last_reply_time = moment(last_reply_at).format("YYYY-MM-DD HH:mm:ss");
-      let now = moment();
-      // console.log(time);
-      // let time2 = moment;
-      let day = now.diff(last_reply_time, "day");
-      return day + "天前";
-    },
-  },
+  //   filters: {
+  //     formatTime (last_reply_at) {
+  //       let last_reply_time = moment(last_reply_at).format("YYYY-MM-DD HH:mm:ss");
+  //       let now = moment();
+  //       // console.log(time);
+  //       // let time2 = moment;
+  //       let day = now.diff(last_reply_time, "day");
+  //       return day + "天前";
+  //     },
+  //   },
 };
 </script>
 
@@ -128,9 +128,9 @@ export default {
     color: #333;
   }
   .avatar {
-    width: 40px;
+    width: 30px;
     border-radius: 4px;
-    height: 40px;
+    height: 30px;
     vertical-align: middle;
     margin: 4px 0;
   }
@@ -141,6 +141,7 @@ export default {
     white-space: nowrap; //不允许换行
     overflow: hidden; //超出隐藏
     text-overflow: ellipsis; //超出部分显示省略号
+    vertical-align: middle;
   }
   // .tab {
   //   background-color: #e5e5e5;
@@ -168,7 +169,7 @@ export default {
     font-size: 12px;
     float: right;
     margin-right: 10px;
-    line-height: 48px;
+    line-height: 38px;
     text-align: center;
   }
 }

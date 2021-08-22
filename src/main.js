@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './assets/global.less'
 import './plugins/axios'
+// import moment from "moment";
 import './filters'
 import './plugins/element.js'
 Vue.config.productionTip = false

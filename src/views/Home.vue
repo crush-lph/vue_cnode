@@ -35,29 +35,14 @@
       <template #pagination>
         <el-pagination background
                        layout="prev, pager, next"
-                       :total="1000">
+                       :page-size='20'
+                       :total="800"
+                       :page-count='20'
+                       :current-page='currentPage'
+                       @current-change="handleCurrentChange">
         </el-pagination>
       </template>
     </Panel>
-    <!-- <Editor
-      initialValue="<p>Initial editor content</p>"
-      apiKey="w6kufjg31yal6ehgdtkralyp5kfl8k309sfivk4y96ftp8fk"
-      :init="{
-        height: 500,
-        menubar: false,
-        plugins: [
-          'advlist autolink lists link image charmap',
-          'searchreplace visualblocks code fullscreen',
-          'print preview anchor insertdatetime media',
-          'paste code help wordcount table',
-        ],
-        toolbar:
-          'undo redo | formatselect | bold italic | \
-        alignleft aligncenter alignright | \
-        bullist numlist outdent indent | help',
-      }"
-    >
-    </Editor> -->
   </div>
 </template>
 
@@ -75,6 +60,7 @@ export default {
     return {
       posts: [],
       details: "",
+      currentPage: 1,
     };
   },
   //通过监听动态路由参数 获取对应的分类数据
@@ -88,29 +74,35 @@ export default {
       async handler (newValue) {
         const tab = newValue || "all";
         // console.log(newValue);
-        const res = await this.$axios.get(`/topics?page=1&limit=40&tab=${tab}`);
+        const res = await this.$axios.get(`/topics?page=${this.currentPage}&limit=20&tab=${tab}`);
         // console.log(res.data);
 
         this.posts = res.data;
       },
       immediate: true,
     },
+    currentPage: {
+
+    }
   },
   computed: {
     tab () {
       return this.$route.params.tab;
     },
   },
-  //   filters: {
-  //     formatTime (last_reply_at) {
-  //       let last_reply_time = moment(last_reply_at).format("YYYY-MM-DD HH:mm:ss");
-  //       let now = moment();
-  //       // console.log(time);
-  //       // let time2 = moment;
-  //       let day = now.diff(last_reply_time, "day");
-  //       return day + "天前";
-  //     },
-  //   },
+  methods: {
+    async handleCurrentChange (val) {
+      // console.log(val);
+      // this.currentPage = val
+      // this.handler
+      const tab = this.$route.params.tab || 'all'
+      // console.log(this.$route.params.tab);
+      const res = await this.$axios.get(`/topics?page=${val}&limit=20&tab=${tab}`);
+      // console.log(res.data);
+
+      this.posts = res.data;
+    }
+  }
 };
 </script>
 

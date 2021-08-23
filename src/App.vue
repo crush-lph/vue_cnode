@@ -50,13 +50,16 @@
         <!-- 发布话题 -->
         <Panel>
           <template #content>
-            <el-button type="primary"
-                       plain>发布话题</el-button>
+            <router-link to="/topic/create">
+              <el-button type="primary"
+                         plain>发布话题</el-button>
+            </router-link>
           </template>
         </Panel>
         <!-- <button @click="isLogin = !isLogin">按钮</button> -->
       </div>
     </div>
+
     <Footer />
   </div>
 </template>
@@ -66,12 +69,14 @@ import Footer from "./components/Footer.vue";
 import Header from "./components/Header";
 import Panel from "./layout/Panel.vue";
 // import Main from './components/Main.vue'
+
+
 export default {
   components: { Header, Footer, Panel },
   data () {
     return {
       isLogin: '',
-      myInfo: {}
+      myInfo: {},
     };
   },
   async created () {
@@ -79,9 +84,12 @@ export default {
       accesstoken: this.$store.state.token
     })
     console.log(res);
+    const myId = res.id
+    window.localStorage.myId = myId
     this.myInfo = res
     this.isLogin = this.$store.state.isLogin;
   },
+
 };
 </script>
 

@@ -55,8 +55,10 @@
                   {{ index + 1 + "楼" }}•{{ comment.create_at | formatTime }}
                 </span>
               </div>
-              <div class="comment_icon">
+              <div class="comment_icon"
+                   v-if="isLogin">
                 <i class="iconfont icon-dianzan"
+                   :class="[comment.is_uped?'is_uped':'']"
                    @click="ups(comment.id)"
                    title="点赞">
                   <span class="up_count">{{comment.ups.length}}</span>
@@ -64,17 +66,30 @@
 
                 <i class="iconfont icon-icon_reply"
                    title="回复"
-                   @click="reply(comment.id)"></i>
+                   @click="reply(comment.id,comment.author.loginname)"></i>
               </div>
             </div>
             <div class="comment_content">
               <span v-html="comment.content"></span>
             </div>
-            <textarea name="reply_editor"
+            <!-- <textarea name="reply_editor"
                       :id="comment.id"
                       cols="30"
                       rows="10"
-                      v-show="(comment.id===visibleId)&&replyClick"></textarea>
+                      v-show="(comment.id===visibleId)&&replyClick">@{{comment.author.loginname}}</textarea> -->
+
+            <div class="reply_editor"
+                 v-if="(comment.id===visibleId)&&replyClick">
+              <Editor v-model="text"
+                      :init="{
+                    height: 300,
+                    language:'zh_CN',
+                    menubar: false,
+                    branding:false,
+            }">
+              </Editor>
+              <el-button style="margin-top:10px;float:right;">回复</el-button>
+            </div>
           </div>
         </div>
       </template>
@@ -86,77 +101,81 @@
         </div>
       </template>
       <template #content>
-        <div class="editor"
-             id="editor">
-
-        </div>
+        <Editor v-model="text"
+                :init="{
+                    height: 500,
+                    language:'zh_CN',
+                    menubar: false,
+                    branding:false,
+            }">
+        </Editor>
       </template>
     </Panel>
-    <!-- <Panel :width="'90%'">
-      <template #panel-header>
-        <span>添加回复</span>
-      </template>
-      <template #content>
-       
-      </template>
-    </Panel> -->
-    <!-- <Editor
-      initialValue="<p>Initial editor content</p>"
-      apiKey="w6kufjg31yal6ehgdtkralyp5kfl8k309sfivk4y96ftp8fk"
-      :init="{
-        height: 500,
-        menubar: false,
-        plugins: [
-          'advlist autolink lists link image charmap',
-          'searchreplace visualblocks code fullscreen',
-          'print preview anchor insertdatetime media',
-          'paste code help wordcount table',
-        ],
-        toolbar:
-          'undo redo | formatselect | bold italic | \
-        alignleft aligncenter alignright | \
-        bullist numlist outdent indent | help',
-      }"
-    >
-    </Editor> -->
+
   </div>
 </template>
 
 <script>
 import Panel from "../layout/Panel.vue";
-import moment from "moment";
+import Editor from "@tinymce/tinymce-vue";
 // import tinymce from "tinymce";
 // import { Editor } from "@tinymce/tinymce-vue";
-
 export default {
   name: "",
-  components: { Panel },
+  components: { Panel, Editor },
   data () {
     return {
       detial: {},
       visibleId: String,
       replyClick: false,
-
+      content: 'aaa',
+      token: '',
+      isLogin: this.$store.state.isLogin,
+      text: ''
     };
   },
+  // const isLogin = this.$store.state.isLogin,
   async created () {
     const res = await this.$axios.get(`/topic/${this.$route.query.id}`);
     this.detial = res.data;
     console.log(this.detial);
+    this.token = this.$store.state.token
   },
   methods: {
+    // 点赞
     async ups (id) {
-      const res = await this.$axios.post(`/reply/${id}/up`)
-      console.log(id);
-      console.log(res);
+      const res = await this.$axios.post(`/reply/${id}/ups`, {
+        accesstoken: this.token,
+      })
+      // 找到当前评论
+      const currentComment = this.detial.replies.find((item) => item.id === id)
+      const myId = window.localStorage.getItem('myId')
+      currentComment.is_uped = res.action === 'up' ? false : true
+      res.action === "up"
+        ? currentComment.ups.push(myId)
+        : currentComment.ups.splice(
+          currentComment.ups.indexOf(myId),
+          1
+        );
+      // console.log(id);
+      // console.log(res);
     },
-    reply (id) {
+    reply (id, name) {
       // if (id === moment.id)
-      this.replyClick = !this.replyClick
-      console.log(id);
+      if (this.visibleId === id) {
+        console.log('aa');
+        this.replyClick = !this.replyClick
+      } else {
+        this.replyClick = true
+      }
+      // console.log(id);
       this.visibleId = id
+      this.text = `@${name}`
       // console.log(comment.id);
-    }
+    },
+    // submit(){
+
+    // }
   }
 };
 </script>
@@ -195,6 +214,7 @@ export default {
       .comment_icon i {
         padding: 2px 5px;
         cursor: pointer;
+        color: rgb(99, 97, 97);
         .up_count {
           color: #808080;
           font-size: 14px;
@@ -222,5 +242,8 @@ export default {
     // margin-right: 15px;
     content: "•";
   }
+}
+.is_uped {
+  color: #333 !important;
 }
 </style>

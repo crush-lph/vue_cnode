@@ -49,6 +49,7 @@ export default {
   top: 0px;
   line-height: 50px;
   overflow: hidden;
+  z-index: 999;
   a {
     color: aliceblue;
     margin-right: 40px;

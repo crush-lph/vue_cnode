@@ -12,7 +12,7 @@
         <div class="create_topic">
           <div class="checkTab">
             <!-- <span>选择板块</span> -->
-            <el-select v-model="value"
+            <el-select v-model="tab"
                        placeholder="请选择板块">
               <el-option v-for="item in options"
                          :key="item.value"
@@ -22,11 +22,11 @@
             </el-select>
           </div>
           <div class="inputTitle">
-            <el-input v-model="input"
+            <el-input v-model="title"
                       placeholder="请输入标题"></el-input>
           </div>
           <div class="editor">
-            <Editor v-model="text"
+            <Editor v-model="content"
                     :init="{
                     height: 500,
                     language:'zh_CN',
@@ -35,7 +35,9 @@
             }">
             </Editor>
           </div>
-          <el-button @click="submit">提交</el-button>
+          <el-button @click="submit"
+                     style="float:right"
+                     class="clearfix">提交</el-button>
         </div>
       </template>
     </Panel>
@@ -66,16 +68,27 @@ export default {
         value: 'dev',
         label: '客户端测试'
       }],
-      value: '',
-      input: '',
-      text: ''
+      tab: '',
+      title: '',
+      content: ''
     }
   },
   methods: {
-    submit () {
-      console.log(
-        this.text
-      );
+    async submit () {
+      // console.log(
+      //   this.text
+      // );
+      // const isLogin = window.localStorage.getItem('isLogin')
+      const token = this.$store.state.token
+      const { title, tab, content } = this
+      console.log(title, tab, content, token);
+      const res = await this.$axios.post('/topics', {
+        accesstoken: token,
+        title: title,
+        tab: tab,
+        content: content
+      })
+      console.log(res);
     }
   }
 
@@ -84,6 +97,7 @@ export default {
 
 <style lang='less'>
 .create_topic {
+  height: 660px;
   .checkTab,
   .inputTitle,
   .editor {

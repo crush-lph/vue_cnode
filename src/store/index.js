@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: Boolean,
+    isLogin: false,
     token: "dcb9af35-cf99-4376-9efd-9afb9bd92db4",
     content: ''
   },

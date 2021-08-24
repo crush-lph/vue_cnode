@@ -15,8 +15,10 @@ Vue.filter(
       // } else return day + "天前";
     } else if (now.diff(oldTime, 'hour') >= 24) {
       return day + '天前'
-    } else {
+    } else if (now.diff(oldTime, 'minutes') >= 60) {
       return now.diff(oldTime, 'hour') + '小时前'
+    } else {
+      return now.diff(oldTime, 'minutes') + '分钟前'
     }
   },
 )

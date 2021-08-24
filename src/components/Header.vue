@@ -33,7 +33,7 @@ export default {
   methods: {
     exit () {
       this.$store.state.isLogin = false;
-      window.localStorage.isLogin = this.$store.state.isLogin;
+      window.localStorage.isLogin = false;
     },
   },
 

@@ -29,19 +29,6 @@
         <div v-for="(comment, index) in detial.replies"
              :key="comment.id"
              class="commentBox">
-          <!-- <div class="author_content">
-            <img :src="comment.author.avatar_url"
-                 alt=""
-                 class="headimg" />
-            <span>
-              {{ comment.author.loginname }}
-              {{ index + 1 + "楼" }}•{{ comment.create_at | formatTime }}
-            </span>
-
-          </div>
-          <div class="comment_content">
-            <span v-html="comment.content"></span>
-          </div> -->
           <div class="comment_profile">
             <img :src="comment.author.avatar_url"
                  alt=""
@@ -72,11 +59,6 @@
             <div class="comment_content">
               <span v-html="comment.content"></span>
             </div>
-            <!-- <textarea name="reply_editor"
-                      :id="comment.id"
-                      cols="30"
-                      rows="10"
-                      v-show="(comment.id===visibleId)&&replyClick">@{{comment.author.loginname}}</textarea> -->
 
             <div class="reply_editor"
                  v-if="(comment.id===visibleId)&&replyClick">
@@ -88,7 +70,8 @@
                     branding:false,
             }">
               </Editor>
-              <el-button style="margin-top:10px;float:right;">回复</el-button>
+              <el-button style="margin-top:10px;float:right;"
+                         @click="submitComment">回复</el-button>
             </div>
           </div>
         </div>
@@ -101,14 +84,19 @@
         </div>
       </template>
       <template #content>
-        <Editor v-model="text"
-                :init="{
+        <div class="reply">
+          <Editor v-model.trim="text"
+                  :init="{
                     height: 500,
                     language:'zh_CN',
                     menubar: false,
                     branding:false,
             }">
-        </Editor>
+          </Editor>
+          <el-button class="clearfix"
+                     style="float:right;margin-top:10px"
+                     @click="submitComment">回复</el-button>
+        </div>
       </template>
     </Panel>
 
@@ -161,21 +149,45 @@ export default {
       // console.log(res);
     },
     reply (id, name) {
-      // if (id === moment.id)
+      // 点击评论按钮之后先判断出现哪个编辑器，如果之前没有存id或者id不同的时候才会出现当前编辑器，相同时就是已经点击了两次，需要把这个编辑器关掉，执行完判断之后把当前id存下来待下一次判断
+      this.text = `@${name}`
+
       if (this.visibleId === id) {
-        console.log('aa');
         this.replyClick = !this.replyClick
+        if (this.replyClick === false) {
+          this.text = ''
+        }
+        console.log(this.text);
       } else {
         this.replyClick = true
       }
-      // console.log(id);
       this.visibleId = id
-      this.text = `@${name}`
-      // console.log(comment.id);
     },
-    // submit(){
-
-    // }
+    async submitComment () {
+      const topic_id = this.detial.id
+      const { text } = this
+      console.log(typeof (text));
+      if (text) {
+        const res = await this.$axios.post(`/topic/${topic_id}/replies`, { accesstoken: this.token, content: text, })
+        console.log(res);
+        this.replyClick = false
+        const newComment = {
+          id: res.reply_id,
+          is_uped: false,
+          ups: [],
+          content: `<p>${text}<p>`,
+          author: {
+            avatar_url:
+              "https://avatars.githubusercontent.com/u/68153551?v=4&s=120",
+            loginname: "lph0913",
+          },
+        };
+        this.detial.replies.push(newComment)
+        // console.log(this.detial);
+        this.text = ''
+      }
+      // console.log(typeof (`<p>${text}<p>`));
+    }
   }
 };
 </script>
@@ -245,5 +257,9 @@ export default {
 }
 .is_uped {
   color: #333 !important;
+}
+
+.reply {
+  height: 560px;
 }
 </style>

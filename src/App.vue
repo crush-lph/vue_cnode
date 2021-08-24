@@ -24,38 +24,42 @@
           </div>
         </div>
 
-        <!-- 个人信息 -->
-        <Panel v-else>
-          <template #panel-header>
-            <span>个人信息</span>
-          </template>
-          <template #content>
-            <div class="my_info"
-                 :v-if="myInfo">
-              <div class="info_top">
-                <!-- <img src="" alt=""> -->
-                <img class="profile"
-                     :src='myInfo.avatar_url'
-                     alt="">
-                <span>{{myInfo.loginname}}</span>
+        <div class="isLogin"
+             v-if="this.$store.state.isLogin">
+          <!-- 个人信息 -->
+          <Panel>
+            <template #panel-header>
+              <span>个人信息</span>
+            </template>
+            <template #content>
+              <div class="my_info">
+                <div class="info_top">
+                  <!-- <img src="" alt=""> -->
+                  <img class="profile"
+                       :src='myInfo.avatar_url'
+                       alt="">
+                  <span>{{myInfo.loginname}}</span>
+                </div>
+                <div class="info_bottom">
+                  <span class="point">积分:5</span>
+                  <span class="signature">'这家伙很懒，什么个性签名都没有留下'</span>
+                </div>
               </div>
-              <div class="info_bottom">
-                <span class="point">积分:5</span>
-                <span class="signature">'这家伙很懒，什么个性签名都没有留下'</span>
-              </div>
-            </div>
-          </template>
-        </Panel>
+            </template>
+          </Panel>
 
-        <!-- 发布话题 -->
-        <Panel>
-          <template #content>
-            <router-link to="/topic/create">
-              <el-button type="primary"
-                         plain>发布话题</el-button>
-            </router-link>
-          </template>
-        </Panel>
+          <!-- 发布话题 -->
+          <Panel>
+            <template #content>
+              <router-link to="/topic/create">
+                <el-button type="primary"
+                           plain>发布话题</el-button>
+              </router-link>
+            </template>
+          </Panel>
+        </div>
+        <!-- 个人信息 -->
+
         <!-- <button @click="isLogin = !isLogin">按钮</button> -->
       </div>
     </div>
@@ -83,13 +87,28 @@ export default {
     const res = await this.$axios.post("/accesstoken", {
       accesstoken: this.$store.state.token
     })
-    console.log(res);
-    const myId = res.id
-    window.localStorage.myId = myId
     this.myInfo = res
-    this.isLogin = this.$store.state.isLogin;
+    // console.log(res);
+    const myId = res.id
+    const myLoginname = res.loginname
+    window.localStorage.myLoginname = myLoginname
+    window.localStorage.myId = myId
+    this.isLogin = window.localStorage.getItem('isLogin')
+    this.$store.state.isLogin = this.isLogin;
   },
-
+  computed: {
+    getLoginStatus () {
+      // return window.localStorage.getItem('isLogin')
+      const isLogin = window.localStorage.getItem('isLogin')
+      if (isLogin) {
+        console.log(isLogin);
+        return isLogin
+      } else {
+        window.localStorage.isLogin = this.$store.state.isLogin
+        return isLogin
+      }
+    }
+  }
 };
 </script>
 

@@ -83,6 +83,19 @@ export default {
       myInfo: {},
     };
   },
+  beforeCreate () {
+    const isLogin = window.localStorage.getItem('isLogin')
+    if (!isLogin) {
+      window.localStorage.isLogin = false
+      this.$store.state.isLogin = false
+    }
+    else {
+      this.$store.state.isLogin = isLogin === 'true'
+      // console.log(isLogin, '登录状态');
+    }
+    console.log(this.$store.state.isLogin);
+  },
+
   async created () {
     const res = await this.$axios.post("/accesstoken", {
       accesstoken: this.$store.state.token

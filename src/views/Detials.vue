@@ -93,6 +93,11 @@
                     branding:false,
             }">
           </Editor>
+          <!-- <textarea v-model="text"
+                    name=""
+                    id=""
+                    cols="30"
+                    rows="10"></textarea> -->
           <el-button class="clearfix"
                      style="float:right;margin-top:10px"
                      @click="submitComment">回复</el-button>
@@ -164,6 +169,18 @@ export default {
       this.visibleId = id
     },
     async submitComment () {
+      // var activeEditor = tinymce.activeEditor;
+      // var editBody = activeEditor.getBody();
+      // activeEditor.selection.select(editBody);
+      // this.content = activeEditor.selection.getContent({
+      //   'format': "text",
+      // });
+      var activeEditor = tinymce.activeEditor;
+      var editBody = activeEditor.getBody();
+      activeEditor.selection.select(editBody);
+      this.text = activeEditor.selection.getContent({
+        format: "text",
+      });
       const topic_id = this.detial.id
       const { text } = this
       console.log(typeof (text));
@@ -183,10 +200,9 @@ export default {
           },
         };
         this.detial.replies.push(newComment)
-        // console.log(this.detial);
+        console.log(this.detial);
         this.text = ''
       }
-      // console.log(typeof (`<p>${text}<p>`));
     }
   }
 };

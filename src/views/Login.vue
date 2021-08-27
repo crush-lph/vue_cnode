@@ -56,8 +56,8 @@ export default {
           })
           .then((res) => {
             this.$router.push("/");
-            this.$store.state.isLogin = true;
             window.localStorage.isLogin = true
+            this.$store.state.isLogin = true;
           })
           .catch((err) => {
             alert("token错误");

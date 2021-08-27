@@ -1,5 +1,8 @@
 <template>
   <div class="header">
+    <div class="logo">
+
+    </div>
     <ul>
       <li>
         <router-link to="/">首页</router-link>
@@ -32,8 +35,10 @@ export default {
 
   methods: {
     exit () {
-      this.$store.state.isLogin = false;
       window.localStorage.isLogin = false;
+      this.$store.state.isLogin = window.localStorage.getItem('isLogin') === 'true';
+      console.log(this.$store.state.isLogin);
+      console.log(typeof false);
     },
   },
 

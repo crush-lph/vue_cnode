@@ -53,9 +53,6 @@ export default {
   data () {
     return {
       options: [{
-        value: 'good',
-        label: '精华'
-      }, {
         value: 'share',
         label: '分享'
       }, {
@@ -75,19 +72,33 @@ export default {
   },
   methods: {
     async submit () {
-      // console.log(
-      //   this.text
-      // );
-      // const isLogin = window.localStorage.getItem('isLogin')
-      const token = this.$store.state.token
       const { title, tab, content } = this
-      console.log(title, tab, content, token);
+      const token = this.$store.state.token
+      var activeEditor = tinymce.activeEditor;
+      var editBody = activeEditor.getBody();
+      activeEditor.selection.select(editBody);
+      content = activeEditor.selection.getContent({
+        'format': "text",
+      });
+      // var dom = document.getElementById("selectTopic");
+      // const value = dom.value;
+      // console.log(this.content);
+
+
+      // console.log(title, tab, content, token);
       const res = await this.$axios.post('/topics', {
         accesstoken: token,
         title: title,
         tab: tab,
         content: content
-      })
+      }).then(
+        () => {
+          tab = ''
+          title = ''
+          content = ''
+          this.$router.go(-1)
+        }
+      )
       console.log(res);
     }
   }

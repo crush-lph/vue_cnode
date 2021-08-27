@@ -3,12 +3,24 @@
     <Panel :width="'90%'">
       <template #panel-header>
         <div class="nav">
-          <router-link to="/">全部</router-link>
-          <router-link to="/good">精华</router-link>
-          <router-link to="/share">分享</router-link>
-          <router-link to="/ask">问答</router-link>
-          <router-link to="/job">招聘</router-link>
-          <router-link to="/dev">客户端测试</router-link>
+          <router-link exact
+                       active-class="isActive"
+                       to="/">全部</router-link>
+          <router-link exact
+                       active-class="isActive"
+                       to="/good">精华</router-link>
+          <router-link exact
+                       active-class="isActive"
+                       to="/share">分享</router-link>
+          <router-link exact
+                       active-class="isActive"
+                       to="/ask">问答</router-link>
+          <router-link exact
+                       active-class="isActive"
+                       to="/job">招聘</router-link>
+          <router-link exact
+                       active-class="isActive"
+                       to="/dev">客户端测试</router-link>
         </div>
       </template>
       <template #content>
@@ -111,6 +123,12 @@ export default {
   a {
     margin-right: 10px;
     color: #80bd01;
+  }
+  .isActive {
+    background-color: #80bd01;
+    color: #fff;
+    padding: 0 4px;
+    border-radius: 3px;
   }
 }
 .post-item {

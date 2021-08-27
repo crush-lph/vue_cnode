@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
   if (loginStatus === 'true' && to.path === '/login') {
     console.log(loginStatus);
     next('/')
-    // console.log("已登录");
+    alert('已登录')
   }
   else {
     next()

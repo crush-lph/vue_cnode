@@ -93,9 +93,9 @@ export default {
       },
       immediate: true,
     },
-    currentPage: {
+    // currentPage: {
 
-    }
+    // }
   },
   computed: {
     tab () {
@@ -103,6 +103,7 @@ export default {
     },
   },
   methods: {
+    //更改页码
     async handleCurrentChange (val) {
       // console.log(val);
       // this.currentPage = val
@@ -111,7 +112,6 @@ export default {
       // console.log(this.$route.params.tab);
       const res = await this.$axios.get(`/topics?page=${val}&limit=20&tab=${tab}`);
       // console.log(res.data);
-
       this.posts = res.data;
     }
   }

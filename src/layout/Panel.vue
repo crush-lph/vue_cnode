@@ -14,7 +14,6 @@
     </div>
     <div class="pagination">
       <slot name="pagination" />
-
     </div>
   </div>
 </template>

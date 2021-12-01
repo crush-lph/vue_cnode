@@ -162,7 +162,7 @@ export default {
         if (this.replyClick === false) {
           this.text = ''
         }
-        console.log(this.text);
+        // console.log(this.text);
       } else {
         this.replyClick = true
       }

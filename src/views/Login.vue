@@ -43,6 +43,10 @@ export default {
   },
   created () {
     this.token = this.$store.state.token
+    // this.$store.commit('changeLogin', false)
+    // window.localStorage.isLogin = false
+    console.log(this.$router);
+    console.log(this.$route);
   }
   ,
   methods: {
@@ -56,8 +60,8 @@ export default {
           })
           .then((res) => {
             this.$router.push("/");
-            window.localStorage.isLogin = true
-            this.$store.state.isLogin = true;
+            // window.localStorage.setItem('isLogin', true)
+            this.$store.commit('changeLogin', true);
           })
           .catch((err) => {
             alert("token错误");

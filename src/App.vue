@@ -106,8 +106,8 @@ export default {
     const myLoginname = res.loginname
     window.localStorage.myLoginname = myLoginname
     window.localStorage.myId = myId
-    this.isLogin = window.localStorage.getItem('isLogin')
-    this.$store.state.isLogin = this.isLogin;
+    // this.isLogin = window.localStorage.getItem('isLogin')
+    // this.$store.commit('changeLogin');
   },
   computed: {
     getLoginStatus () {

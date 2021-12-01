@@ -1,7 +1,6 @@
 <template>
   <div class="header">
     <div class="logo">
-
     </div>
     <ul>
       <li>
@@ -10,10 +9,9 @@
       <li>
         <router-link to="/getstart">新手入门</router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link to="/api">API</router-link>
-      </li>
-
+      </li> -->
       <li>
         <router-link to="/about">关于</router-link>
       </li>
@@ -32,16 +30,39 @@
 <script>
 export default {
   name: "Header",
+  data () {
+    return {
+      loginStatus: this.$store.state.isLogin
+    }
+  },
+  created () {
+    // this.loginStatus = this.$store.state.isLogin
+    //更新了
+    // window.addEventListener('beforeunload', () => {
+    //   window.localStorage.isLogin = this.$store.state.isLogin
+    //   this.$store
+    // })
+  },
+  // updated () {
 
+  //   this.loginStatus = this.$store.state.isLogin
+  //   window.localStorage.isLogin = this.loginStatus
+  //   console.log('登录状态更新了');
+  // },
   methods: {
     exit () {
-      window.localStorage.isLogin = false;
-      this.$store.state.isLogin = window.localStorage.getItem('isLogin') === 'true';
-      console.log(this.$store.state.isLogin);
-      console.log(typeof false);
+      // window.localStorage.isLogin = false;
+      // let isLogin = window.localStorage.getItem('isLogin') === 'true';
+      // console.log(isLogin);
+      // this.loginStatus
+      // window.localStorage.isLogin = false
+      // this.loginStatus = false
+      this.$store.commit('changeLogin', false)
+      // console.log(this.$store.state.isLogin);
+      // console.log(typeof false);
     },
-  },
 
+  },
 };
 </script>
 
